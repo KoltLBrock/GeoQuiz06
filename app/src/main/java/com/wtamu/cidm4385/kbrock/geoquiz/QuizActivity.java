@@ -25,6 +25,7 @@ public class QuizActivity extends AppCompatActivity {
     private Button mCheatButton;
     private TextView mQuestionTextView;
     private TextView versionTextView;
+    private TextView mRemainingCheats;
 
     private Question[] mQuestionBank = new Question[] {
             new Question(R.string.question_australia, true),
@@ -37,7 +38,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private int mCurrentIndex = 0;
     private boolean mIsCheater;
-
+    private int mCheats = 3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +48,7 @@ public class QuizActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
         }
+        mRemainingCheats = (TextView)findViewById(R.id.cheatsLeft);
         versionTextView = (TextView)findViewById(R.id.versionTextView);
         versionTextView.setText("API Level " + String.valueOf(Build.VERSION.SDK_INT));
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
@@ -81,9 +83,13 @@ public class QuizActivity extends AppCompatActivity {
         mCheatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(mCheats > 0){
                 boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
                 Intent intent = CheatActivity.newIntent(QuizActivity.this, answerIsTrue);
                 startActivityForResult(intent, REQUEST_CODE_CHEAT);
+            }else{
+                    mCheatButton.setEnabled(false);
+                }
             }
         });
 
@@ -101,6 +107,8 @@ public class QuizActivity extends AppCompatActivity {
                 return;
             }
             mIsCheater = CheatActivity.wasAnswerShown(data);
+            mCheats--;
+            mRemainingCheats.setText(mCheats + " cheats left");
         }
     }
 

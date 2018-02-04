@@ -44,8 +44,12 @@
         android:drawableRight="@drawable/arrow_right"
         android:drawablePadding="4dp"/>
     <TextView
+        android:id="@+id/cheatsLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3 cheats left"/>
+    <TextView
         android:id="@+id/versionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
 </LinearLayout>
